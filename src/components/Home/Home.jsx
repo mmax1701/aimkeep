@@ -9,7 +9,7 @@ import AddAim from '../AddAim/AddAim';
 
 Modal.setAppElement('#root');
 
-const Home = () => {
+const Home = ({ user, handleSignOut }) => {
   const [aims, setAims] = useState(aim);
   const [editingAim, setEditingAim] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -57,8 +57,8 @@ const Home = () => {
         <div>search</div>
         <div>
           <div>photo_user</div>
-          <div>name_user</div>
-          <div>logout</div>
+          <div>{user}</div>
+          <button onClick={handleSignOut}>Вийти</button>
         </div>
       </div>
       <div>
