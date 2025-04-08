@@ -1,18 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
-import aim from '../../aim.json';
 import AimList from '../AimList/AimList';
 import EditAimForm from '../EditAimForm/EditAimForm'; // Импортируем форму
 import { nanoid } from 'nanoid';
 import AddAim from '../AddAim/AddAim';
 
+import { db } from '../../firebase';
+import {
+  getDocs,
+  collection,
+  doc,
+  addDoc,
+  query,
+  orderBy,
+} from 'firebase/firestore';
+
 Modal.setAppElement('#root');
 
 const Home = ({ user, handleSignOut }) => {
-  const [aims, setAims] = useState(aim);
+  const [aims, setAims] = useState();
   const [editingAim, setEditingAim] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const getAllAims = async () => {
+    try {
+      const aimsQuery = query(
+        collection(db, 'aims'),
+        orderBy('createdAt', 'desc')
+      );
+      const aimsCollection = await getDocs(aimsQuery);
+      const aimsData = aimsCollection.docs.map(aim => ({
+        id: aim.id,
+        ...aim.data(),
+      }));
+      setAims(aimsData);
+    } catch (error) {
+      console.error('Error fetching aims:', error);
+    }
+  };
+
+  useEffect(() => {
+    getAllAims();
+  }, []);
 
   const handleComplete = aimId => {
     setAims(prevAims =>
@@ -26,11 +56,11 @@ const Home = ({ user, handleSignOut }) => {
     setAims(prevAims => prevAims.filter(aim => aim.id !== aimId));
   };
 
-  const handleAddAim = newAim => {
-    const aimWithId = { ...newAim, id: nanoid() };
-    setAims(prevAims => [aimWithId, ...prevAims]);
-    setIsAddModalOpen(false);
-  };
+  // const handleAddAim = newAim => {
+  //   const aimWithId = { ...newAim, id: nanoid() };
+  //   setAims(prevAims => [aimWithId, ...prevAims]);
+  //   setIsAddModalOpen(false);
+  // };
 
   const handleEditStart = aimId => {
     const aimToEdit = aims.find(aim => aim.id === aimId);
@@ -65,7 +95,7 @@ const Home = ({ user, handleSignOut }) => {
         <button onClick={() => setIsAddModalOpen(true)}>Додати ціль</button>
       </div>
 
-      {aims.length > 0 ? (
+      {aims && aims.length > 0 ? (
         <div>
           {aims.some(aim => !aim.completed) && (
             <>
@@ -100,8 +130,13 @@ const Home = ({ user, handleSignOut }) => {
         onRequestClose={() => setIsAddModalOpen(false)}
       >
         <AddAim
-          onAddAim={handleAddAim}
+          // onAddAim={handleAddAim}
+
           onCancel={() => setIsAddModalOpen(false)}
+          getAllAims={() => {
+            getAllAims();
+            setIsAddModalOpen(false);
+          }}
         />
       </Modal>
 
