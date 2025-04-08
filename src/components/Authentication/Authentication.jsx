@@ -38,16 +38,14 @@ const Authentication = () => {
   };
 
   if (loading) {
-    return <p>Загрузка...</p>; // ← пока загружается — показываем "Загрузка"
+    return <p>Загрузка...</p>;
   }
 
   return (
     <div>
       {user ? (
         <div>
-          <Home user={user.displayName} handleSignOut={handleSignOut} />
-          {/* <p>Привет, {user.displayName}!</p> */}
-          {/* <button onClick={handleSignOut}>Выйти</button> */}
+          <Home user={user} handleSignOut={handleSignOut} />
         </div>
       ) : (
         <div>

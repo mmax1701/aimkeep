@@ -14,6 +14,7 @@ import {
   addDoc,
   query,
   orderBy,
+  where,
 } from 'firebase/firestore';
 
 Modal.setAppElement('#root');
@@ -27,6 +28,7 @@ const Home = ({ user, handleSignOut }) => {
     try {
       const aimsQuery = query(
         collection(db, 'aims'),
+        where('userId', '==', user.uid),
         orderBy('createdAt', 'desc')
       );
       const aimsCollection = await getDocs(aimsQuery);
@@ -41,8 +43,10 @@ const Home = ({ user, handleSignOut }) => {
   };
 
   useEffect(() => {
-    getAllAims();
-  }, []);
+    if (user?.uid) {
+      getAllAims();
+    }
+  }, [user]);
 
   const handleComplete = aimId => {
     setAims(prevAims =>
@@ -87,7 +91,7 @@ const Home = ({ user, handleSignOut }) => {
         <div>search</div>
         <div>
           <div>photo_user</div>
-          <div>{user}</div>
+          <div>{user.displayName}</div>
           <button onClick={handleSignOut}>Вийти</button>
         </div>
       </div>
@@ -130,13 +134,12 @@ const Home = ({ user, handleSignOut }) => {
         onRequestClose={() => setIsAddModalOpen(false)}
       >
         <AddAim
-          // onAddAim={handleAddAim}
-
           onCancel={() => setIsAddModalOpen(false)}
           getAllAims={() => {
             getAllAims();
             setIsAddModalOpen(false);
           }}
+          userId={user.uid}
         />
       </Modal>
 

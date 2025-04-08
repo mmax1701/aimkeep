@@ -2,7 +2,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import React from 'react';
 import { db } from '../../firebase';
 
-const AddAim = ({ onCancel, getAllAims }) => {
+const AddAim = ({ onCancel, getAllAims, userId }) => {
   const handleSubmit = async event => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -14,6 +14,7 @@ const AddAim = ({ onCancel, getAllAims }) => {
     try {
       await addDoc(collection(db, 'aims'), {
         ...newAim,
+        userId: userId,
         completed: false,
         createdAt: serverTimestamp(),
       });
