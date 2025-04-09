@@ -98,7 +98,7 @@ const Home = ({ user, handleSignOut }) => {
         <div>logo</div>
         <div>search</div>
         <div>
-          <div>photo_user</div>
+          <div>{user.photoURL && <img src={user.photoURL} alt="photo" />}</div>
           <div>{user.displayName}</div>
           <button onClick={handleSignOut}>Вийти</button>
         </div>
