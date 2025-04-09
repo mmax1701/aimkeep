@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 
 const EditAimForm = ({ aim, onSave, onCancel }) => {
-  const [editedAim, setEditedAim] = useState(aim);
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setEditedAim(prev => ({ ...prev, [name]: value }));
-  };
+  const [title, setTitle] = useState(aim.title);
+  const [description, setDescription] = useState(aim.description);
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSave(editedAim);
+    onSave({ ...aim, title, description });
   };
 
   return (
@@ -18,13 +14,15 @@ const EditAimForm = ({ aim, onSave, onCancel }) => {
       <input
         type="text"
         name="title"
-        value={editedAim.title}
-        onChange={handleChange}
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        placeholder="Назва цілі"
       />
       <textarea
         name="description"
-        value={editedAim.description}
-        onChange={handleChange}
+        value={description}
+        onChange={e => setDescription(e.target.value)}
+        placeholder="Опис цілі"
       />
       <button type="submit">Зберегти</button>
       <button type="button" onClick={onCancel}>

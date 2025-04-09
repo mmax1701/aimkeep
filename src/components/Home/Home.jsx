@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
 import AimList from '../AimList/AimList';
-import EditAimForm from '../EditAimForm/EditAimForm'; // Импортируем форму
-import { nanoid } from 'nanoid';
+import EditAimForm from '../EditAimForm/EditAimForm';
 import AddAim from '../AddAim/AddAim';
 
 import { db } from '../../firebase';
@@ -12,6 +11,8 @@ import {
   collection,
   doc,
   addDoc,
+  updateDoc,
+  deleteDoc,
   query,
   orderBy,
   where,
@@ -20,7 +21,7 @@ import {
 Modal.setAppElement('#root');
 
 const Home = ({ user, handleSignOut }) => {
-  const [aims, setAims] = useState();
+  const [aims, setAims] = useState([]);
   const [editingAim, setEditingAim] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -49,22 +50,21 @@ const Home = ({ user, handleSignOut }) => {
   }, [user]);
 
   const handleComplete = aimId => {
-    setAims(prevAims =>
-      prevAims.map(aim =>
-        aim.id === aimId ? { ...aim, completed: true } : aim
-      )
+    const updatedAims = aims.map(aim =>
+      aim.id === aimId ? { ...aim, completed: true } : aim
     );
+    setAims(updatedAims);
+    updateDoc(doc(db, 'aims', aimId), { completed: true });
   };
 
-  const handleDelete = aimId => {
-    setAims(prevAims => prevAims.filter(aim => aim.id !== aimId));
+  const handleDelete = async aimId => {
+    try {
+      await deleteDoc(doc(db, 'aims', aimId));
+      setAims(prevAims => prevAims.filter(aim => aim.id !== aimId));
+    } catch (error) {
+      console.error('Error deleting aim:', error);
+    }
   };
-
-  // const handleAddAim = newAim => {
-  //   const aimWithId = { ...newAim, id: nanoid() };
-  //   setAims(prevAims => [aimWithId, ...prevAims]);
-  //   setIsAddModalOpen(false);
-  // };
 
   const handleEditStart = aimId => {
     const aimToEdit = aims.find(aim => aim.id === aimId);
@@ -77,11 +77,19 @@ const Home = ({ user, handleSignOut }) => {
     setEditingAim(null);
   };
 
-  const handleEditSave = updatedAim => {
-    setAims(prevAims =>
-      prevAims.map(aim => (aim.id === updatedAim.id ? updatedAim : aim))
-    );
-    setEditingAim(null);
+  const handleEditSave = async updatedAim => {
+    try {
+      await updateDoc(doc(db, 'aims', updatedAim.id), {
+        title: updatedAim.title,
+        description: updatedAim.description,
+      });
+      setAims(prevAims =>
+        prevAims.map(aim => (aim.id === updatedAim.id ? updatedAim : aim))
+      );
+      setEditingAim(null);
+    } catch (error) {
+      console.error('Error updating aim:', error);
+    }
   };
 
   return (
@@ -143,17 +151,12 @@ const Home = ({ user, handleSignOut }) => {
         />
       </Modal>
 
-      <Modal isOpen={!!editingAim} onRequestClose={() => setEditingAim(null)}>
+      <Modal isOpen={!!editingAim} onRequestClose={handleEditCancel}>
         {editingAim && (
           <EditAimForm
             aim={editingAim}
-            onSave={updatedAim => {
-              setAims(prev =>
-                prev.map(aim => (aim.id === updatedAim.id ? updatedAim : aim))
-              );
-              setEditingAim(null);
-            }}
-            onCancel={() => setEditingAim(null)}
+            onSave={handleEditSave}
+            onCancel={handleEditCancel}
           />
         )}
       </Modal>
