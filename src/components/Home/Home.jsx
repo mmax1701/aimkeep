@@ -17,11 +17,13 @@ import {
   orderBy,
   where,
 } from 'firebase/firestore';
+import Search from '../Search/Search';
 
 Modal.setAppElement('#root');
 
 const Home = ({ user, handleSignOut }) => {
   const [aims, setAims] = useState([]);
+  const [originalAims, setOriginalAims] = useState([]);
   const [editingAim, setEditingAim] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -38,6 +40,7 @@ const Home = ({ user, handleSignOut }) => {
         ...aim.data(),
       }));
       setAims(aimsData);
+      setOriginalAims(aimsData); // сохраняем оригинальные цели
     } catch (error) {
       console.error('Error fetching aims:', error);
     }
@@ -47,20 +50,25 @@ const Home = ({ user, handleSignOut }) => {
     if (user?.uid) {
       getAllAims();
     }
-  }, [user]);
+  }, [user?.uid]);
 
-  const handleComplete = aimId => {
+  const handleComplete = async aimId => {
     const updatedAims = aims.map(aim =>
       aim.id === aimId ? { ...aim, completed: true } : aim
     );
+    const updatedOriginal = originalAims.map(aim =>
+      aim.id === aimId ? { ...aim, completed: true } : aim
+    );
     setAims(updatedAims);
-    updateDoc(doc(db, 'aims', aimId), { completed: true });
+    setOriginalAims(updatedOriginal);
+    await updateDoc(doc(db, 'aims', aimId), { completed: true });
   };
 
   const handleDelete = async aimId => {
     try {
       await deleteDoc(doc(db, 'aims', aimId));
-      setAims(prevAims => prevAims.filter(aim => aim.id !== aimId));
+      setAims(prev => prev.filter(aim => aim.id !== aimId));
+      setOriginalAims(prev => prev.filter(aim => aim.id !== aimId));
     } catch (error) {
       console.error('Error deleting aim:', error);
     }
@@ -83,7 +91,11 @@ const Home = ({ user, handleSignOut }) => {
         title: updatedAim.title,
         description: updatedAim.description,
       });
+
       setAims(prevAims =>
+        prevAims.map(aim => (aim.id === updatedAim.id ? updatedAim : aim))
+      );
+      setOriginalAims(prevAims =>
         prevAims.map(aim => (aim.id === updatedAim.id ? updatedAim : aim))
       );
       setEditingAim(null);
@@ -92,11 +104,27 @@ const Home = ({ user, handleSignOut }) => {
     }
   };
 
+  const handleSearch = value => {
+    if (value.trim() === '') {
+      setAims(originalAims); // если строка пустая — вернуть все цели
+    } else {
+      const filteredAims = originalAims.filter(aim =>
+        aim.title?.toLowerCase().includes(value.toLowerCase())
+      );
+      setAims(filteredAims);
+    }
+  };
+
   return (
     <div>
       <div>
-        <div>logo</div>
-        <div>search</div>
+        <div>
+          <div>logo</div>
+          <p>AimKeep</p>
+        </div>
+        <div>
+          <Search onSearch={handleSearch} />
+        </div>
         <div>
           <div>{user.photoURL && <img src={user.photoURL} alt="photo" />}</div>
           <div>{user.displayName}</div>
