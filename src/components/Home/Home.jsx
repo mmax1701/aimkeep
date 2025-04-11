@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
-import AimList from '../AimList/AimList';
+import AimAccordion from '../AimAccordion/AimAccordion';
 import EditAimForm from '../EditAimForm/EditAimForm';
 import AddAim from '../AddAim/AddAim';
 
@@ -18,6 +18,19 @@ import {
   where,
 } from 'firebase/firestore';
 import Search from '../Search/Search';
+import {
+  Avatar,
+  Container,
+  Box,
+  Typography,
+  useMediaQuery,
+  Button,
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import logo from '../../assets/logo.png';
 
 Modal.setAppElement('#root');
 
@@ -26,6 +39,9 @@ const Home = ({ user, handleSignOut }) => {
   const [originalAims, setOriginalAims] = useState([]);
   const [editingAim, setEditingAim] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const getAllAims = async () => {
     try {
@@ -116,23 +132,62 @@ const Home = ({ user, handleSignOut }) => {
   };
 
   return (
-    <div>
+    <Container maxWidth="sm">
       <div>
+        <Box display="flex" alignItems="center" gap={1} mb={2}>
+          <img
+            src={logo}
+            alt="Логотип"
+            style={{
+              width: isMobile ? '32px' : '44px',
+              height: isMobile ? '32px' : '44px',
+            }}
+          />
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            component="h1"
+            fontWeight="bold"
+          >
+            AimKeep
+          </Typography>
+        </Box>
         <div>
-          <div>logo</div>
-          <p>AimKeep</p>
+          {user.photoURL && (
+            <Avatar
+              alt="avatar"
+              src={user.photoURL}
+              sx={{ width: 24, height: 24 }}
+            />
+          )}
+
+          <div>{user.displayName}</div>
+          <Button
+            onClick={handleSignOut}
+            size="small" // уменьшает внутренние отступы
+            sx={{
+              textTransform: 'none',
+              fontSize: '0.75rem', // чуть меньше шрифт
+              padding: '3px 7px', // уменьшенные отступы
+              minWidth: 'unset', // убирает минимальную ширину
+            }}
+            variant="outlined"
+            startIcon={<LogoutIcon fontSize="small" />} // уменьшить и иконку
+          >
+            Вийти
+          </Button>
         </div>
         <div>
           <Search onSearch={handleSearch} />
         </div>
-        <div>
-          <div>{user.photoURL && <img src={user.photoURL} alt="photo" />}</div>
-          <div>{user.displayName}</div>
-          <button onClick={handleSignOut}>Вийти</button>
-        </div>
       </div>
       <div>
-        <button onClick={() => setIsAddModalOpen(true)}>Додати ціль</button>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          Додати ціль
+        </Button>
       </div>
 
       {aims && aims.length > 0 ? (
@@ -140,7 +195,7 @@ const Home = ({ user, handleSignOut }) => {
           {aims.some(aim => !aim.completed) && (
             <>
               <div>Заплановані цілі</div>
-              <AimList
+              <AimAccordion
                 aims={aims.filter(aim => !aim.completed)}
                 handleComplete={handleComplete}
                 handleDelete={handleDelete}
@@ -152,7 +207,7 @@ const Home = ({ user, handleSignOut }) => {
           {aims.some(aim => aim.completed) && (
             <>
               <div>Виконані цілі</div>
-              <AimList
+              <AimAccordion
                 aims={aims.filter(aim => aim.completed)}
                 handleComplete={handleComplete}
                 handleDelete={handleDelete}
@@ -188,7 +243,7 @@ const Home = ({ user, handleSignOut }) => {
           />
         )}
       </Modal>
-    </div>
+    </Container>
   );
 };
 
