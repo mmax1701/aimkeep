@@ -31,7 +31,7 @@ const AimsSection = ({
       }}
     >
       {/* Поле поиска и кнопка добавления цели */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box display="flex" justifyContent="space-between" alignItems="center" gap={2}>
         <TextField
           id="search-aim"
           label="Пошук по назві цілі"
@@ -59,12 +59,22 @@ const AimsSection = ({
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() => setIsAddModalOpen(true)}
+          sx={{
+            minWidth: 150, // Минимальная ширина кнопки
+            fontSize: '0.875rem', // Размер шрифта для кнопки
+            padding: '6px 16px', // Отступы для кнопки
+            '@media (max-width: 600px)': { // Медиазапрос для мобильной версии
+              fontSize: '0.75rem', // Меньше шрифт
+              padding: '4px 12px', // Меньше отступы
+              minWidth: 120, // Меньше ширина кнопки
+            },
+          }}
         >
-          Додати ціль
+          Додати
         </Button>
       </Box>
 
-      {/* Секция с целями */}
+
       {aims && aims.length > 0 ? (
         <Box display="flex" flexDirection="column" gap={3}>
           {aims.some(aim => !aim.completed) && (
