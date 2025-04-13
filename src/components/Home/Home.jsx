@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-
+import ModalMui from '../ModalMui.jsx/ModalMui';
 import AimAccordion from '../AimAccordion/AimAccordion';
 import EditAimForm from '../EditAimForm/EditAimForm';
 import AddAim from '../AddAim/AddAim';
@@ -31,8 +30,9 @@ import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import logo from '../../assets/logo.png';
-
-Modal.setAppElement('#root');
+import PageLayout from '../PageLayout/PageLayout';
+import Header from '../Header/Header';
+import AimsSection from '../AimsSection/AimsSection';
 
 const Home = ({ user, handleSignOut }) => {
   const [aims, setAims] = useState([]);
@@ -132,97 +132,26 @@ const Home = ({ user, handleSignOut }) => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <div>
-        <Box display="flex" alignItems="center" gap={1} mb={2}>
-          <img
-            src={logo}
-            alt="Логотип"
-            style={{
-              width: isMobile ? '32px' : '44px',
-              height: isMobile ? '32px' : '44px',
-            }}
-          />
-          <Typography
-            variant={isMobile ? 'h6' : 'h5'}
-            component="h1"
-            fontWeight="bold"
-          >
-            AimKeep
-          </Typography>
-        </Box>
-        <div>
-          {user.photoURL && (
-            <Avatar
-              alt="avatar"
-              src={user.photoURL}
-              sx={{ width: 24, height: 24 }}
-            />
-          )}
+    <PageLayout>
+      <Header
+        user={user}
+        onSignOut={handleSignOut}
+        onSearch={handleSearch}
+        logo={logo}
+      />
+      <AimsSection
+        aims={aims}
+        setIsAddModalOpen={setIsAddModalOpen}
+        handleComplete={handleComplete}
+        handleDelete={handleDelete}
+        handleEditStart={handleEditStart}
+        onSearch={handleSearch} // Передаем функцию поиска в AimsSection
+      />
 
-          <div>{user.displayName}</div>
-          <Button
-            onClick={handleSignOut}
-            size="small" // уменьшает внутренние отступы
-            sx={{
-              textTransform: 'none',
-              fontSize: '0.75rem', // чуть меньше шрифт
-              padding: '3px 7px', // уменьшенные отступы
-              minWidth: 'unset', // убирает минимальную ширину
-            }}
-            variant="outlined"
-            startIcon={<LogoutIcon fontSize="small" />} // уменьшить и иконку
-          >
-            Вийти
-          </Button>
-        </div>
-        <div>
-          <Search onSearch={handleSearch} />
-        </div>
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          Додати ціль
-        </Button>
-      </div>
-
-      {aims && aims.length > 0 ? (
-        <div>
-          {aims.some(aim => !aim.completed) && (
-            <>
-              <div>Заплановані цілі</div>
-              <AimAccordion
-                aims={aims.filter(aim => !aim.completed)}
-                handleComplete={handleComplete}
-                handleDelete={handleDelete}
-                handleEditStart={handleEditStart}
-              />
-            </>
-          )}
-
-          {aims.some(aim => aim.completed) && (
-            <>
-              <div>Виконані цілі</div>
-              <AimAccordion
-                aims={aims.filter(aim => aim.completed)}
-                handleComplete={handleComplete}
-                handleDelete={handleDelete}
-                handleEditStart={handleEditStart}
-              />
-            </>
-          )}
-        </div>
-      ) : (
-        <div>Наразі цілі відсутні</div>
-      )}
-
-      <Modal
-        isOpen={isAddModalOpen}
-        onRequestClose={() => setIsAddModalOpen(false)}
+      <ModalMui
+        open={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Додати ціль"
       >
         <AddAim
           onCancel={() => setIsAddModalOpen(false)}
@@ -232,9 +161,13 @@ const Home = ({ user, handleSignOut }) => {
           }}
           userId={user.uid}
         />
-      </Modal>
+      </ModalMui>
 
-      <Modal isOpen={!!editingAim} onRequestClose={handleEditCancel}>
+      <ModalMui
+        open={!!editingAim}
+        onClose={handleEditCancel}
+        title="Редагувати ціль"
+      >
         {editingAim && (
           <EditAimForm
             aim={editingAim}
@@ -242,8 +175,8 @@ const Home = ({ user, handleSignOut }) => {
             onCancel={handleEditCancel}
           />
         )}
-      </Modal>
-    </Container>
+      </ModalMui>
+    </PageLayout>
   );
 };
 
