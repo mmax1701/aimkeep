@@ -43,7 +43,6 @@ const Header = ({ user, onSignOut, logo }) => {
             style={{
               width: isMobile ? '32px' : '44px',
               height: isMobile ? '32px' : '44px',
-              backgroundColor: 'transparent',
             }}
           />
           <Typography
