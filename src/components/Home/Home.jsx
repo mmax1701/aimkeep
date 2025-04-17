@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ModalMui from '../ModalMui.jsx/ModalMui';
-import AimAccordion from '../AimAccordion/AimAccordion';
 import EditAimForm from '../EditAimForm/EditAimForm';
 import AddAim from '../AddAim/AddAim';
 
@@ -28,8 +27,6 @@ import {
 import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import logo from '../../assets/logo.png';
 import PageLayout from '../PageLayout/PageLayout';
 import Header from '../Header/Header';
 import AimsSection from '../AimsSection/AimsSection';
@@ -137,7 +134,6 @@ const Home = ({ user, handleSignOut }) => {
         user={user}
         onSignOut={handleSignOut}
         onSearch={handleSearch}
-        logo={logo}
       />
       <AimsSection
         aims={aims}

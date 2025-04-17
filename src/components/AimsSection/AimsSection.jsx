@@ -32,49 +32,63 @@ const AimsSection = ({
     >
       {/* Поле поиска и кнопка добавления цели */}
       <Box display="flex" justifyContent="space-between" alignItems="center" gap={2}>
-        <TextField
-          id="search-aim"
-          label="Пошук по назві цілі"
-          variant="outlined"
-          size="small"
-          onChange={e => onSearch(e.target.value)}
-          sx={{
-            width: '100%',
-            maxWidth: 400,
-            fontSize: '0.8rem',
-          }}
-          InputProps={{
-            sx: {
-              height: 36,
-              fontSize: '0.8rem',
-            },
-          }}
-          InputLabelProps={{
-            sx: {
-              fontSize: '0.75rem',
-            },
-          }}
-        />
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setIsAddModalOpen(true)}
-          sx={{
-            minWidth: 150, // Минимальная ширина кнопки
-            fontSize: '0.875rem', // Размер шрифта для кнопки
-            padding: '6px 16px', // Отступы для кнопки
-            '@media (max-width: 600px)': { // Медиазапрос для мобильной версии
-              fontSize: '0.75rem', // Меньше шрифт
-              padding: '4px 12px', // Меньше отступы
-              minWidth: 120, // Меньше ширина кнопки
-            },
-          }}
-        >
-          Додати
-        </Button>
+      <TextField
+  id="search-aim"
+  label="Пошук по назві цілі"
+  variant="outlined"
+  size="small"
+  onChange={e => onSearch(e.target.value)}
+  sx={{
+    width: '100%',
+    maxWidth: 400,
+    fontSize: '0.8rem',
+    '& .MuiOutlinedInput-root': {
+      height: 36,
+      fontSize: '0.8rem',
+      '& fieldset': {
+        borderColor: '#036aff',
+      },
+      '&:hover fieldset': {
+        borderColor: '#036aff',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#036aff',
+      },
+    },
+    '& .MuiInputLabel-root': {
+      fontSize: '0.75rem',
+      color: '#rgba(0, 0, 0, 0.34)',
+      '&.Mui-focused': {
+        color: '#036aff',
+      },
+    },
+  }}
+/>
+
+       <Button
+  variant="contained"
+  startIcon={<AddIcon />}
+  onClick={() => setIsAddModalOpen(true)}
+  sx={{
+    backgroundColor: '#036aff',
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#0356d4', // чуть темнее для hover-эффекта
+    },
+    minWidth: 150,
+    fontSize: '0.875rem',
+    padding: '6px 16px',
+    '@media (max-width: 600px)': {
+      fontSize: '0.75rem',
+      padding: '4px 12px',
+      minWidth: 120,
+    },
+  }}
+>
+  Додати
+</Button>
+
       </Box>
-
-
       {aims && aims.length > 0 ? (
         <Box display="flex" flexDirection="column" gap={3}>
           {aims.some(aim => !aim.completed) && (

@@ -17,9 +17,6 @@ const PageLayout = ({ children }) => {
         disableGutters
         sx={{
           width: "100%",
-        //   backgroundColor: "#ffffff", // белый фон контента
-        //   borderRadius: 3, // скругление углов
-        //   boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // мягкая тень
           padding: { xs: 2, sm: 4 },
           marginTop: { xs: 2, sm: 6 },
         }}

@@ -4,13 +4,13 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBfToCuxgwAdUorTDis2RfXPky60YE86l0',
-  authDomain: 'aimkeep.firebaseapp.com',
-  projectId: 'aimkeep',
-  storageBucket: 'aimkeep.appspot.com',
-  messagingSenderId: '353743209790',
-  appId: '1:353743209790:web:b28dd24eb8b2c6a1c6586f',
-  measurementId: 'G-D2JEM72NLQ',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);

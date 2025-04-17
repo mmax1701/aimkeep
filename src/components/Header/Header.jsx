@@ -8,8 +8,9 @@ import {
   useTheme,
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
-const Header = ({ user, onSignOut, logo }) => {
+const Header = ({ user, onSignOut }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -37,22 +38,19 @@ const Header = ({ user, onSignOut, logo }) => {
       >
         {/* Логотип и название */}
         <Box display="flex" alignItems="center" gap={1}>
-          <img
-            src={logo}
-            alt="Логотип"
-            style={{
-              width: isMobile ? '32px' : '44px',
-              height: isMobile ? '32px' : '44px',
-            }}
-          />
-          <Typography
-            variant={isMobile ? 'h6' : 'h5'}
-            component="h1"
-            fontWeight={500}
-          >
-            AimKeep
-          </Typography>
-        </Box>
+  <BeenhereIcon
+    fontSize={isMobile ? 'small' : 'medium'}
+    sx={{ color: '#036aff' }}
+  />
+  <Typography
+    variant={isMobile ? 'h6' : 'h5'}
+    component="h1"
+    fontWeight={500}
+  >
+    AimKeep
+  </Typography>
+</Box>
+
 
         {/* Аватар, имя и кнопка выхода */}
         <Box display="flex" alignItems="center" gap={1}>
