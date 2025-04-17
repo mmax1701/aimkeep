@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -7,8 +7,8 @@ import {
   IconButton,
   Typography,
   Paper,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ModalMui = ({ open, onClose, title, children, actions }) => {
   return (
@@ -19,22 +19,24 @@ const ModalMui = ({ open, onClose, title, children, actions }) => {
       fullWidth
       PaperProps={{
         sx: {
-          background: 'rgb(255, 255, 255)',
-          backdropFilter: 'blur(12px)',
+          background: "rgb(255, 255, 255)",
+          backdropFilter: "blur(12px)",
           borderRadius: 2,
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
+          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
         },
       }}
     >
       <DialogTitle
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Typography variant="h6" component="span">{title}</Typography>
+        <Typography variant="h6" component="span">
+          {title}
+        </Typography>
         <IconButton onClick={onClose} size="small">
           <CloseIcon />
         </IconButton>
@@ -45,9 +47,7 @@ const ModalMui = ({ open, onClose, title, children, actions }) => {
       </DialogContent>
 
       {actions && (
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          {actions}
-        </DialogActions>
+        <DialogActions sx={{ px: 3, pb: 2 }}>{actions}</DialogActions>
       )}
     </Dialog>
   );

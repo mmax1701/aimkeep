@@ -1,6 +1,6 @@
-import './App.css';
+import "./App.css";
 
-import Authentication from './components/Authentication/Authentication';
+import Authentication from "./components/Authentication/Authentication";
 
 function App() {
   return (

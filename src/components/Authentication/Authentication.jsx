@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup, signOut } from 'firebase/auth';
-import { app, googleAuthProvider } from '../../firebase';
-import Home from '../Home/Home';
-import { Box, Button, CircularProgress, Typography, Container } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-import PageLayout from '../PageLayout/PageLayout'; // Стилизация для страницы авторизации
+import React, { useEffect, useState } from "react";
+import { getAuth, signInWithPopup, signOut } from "firebase/auth";
+import { app, googleAuthProvider } from "../../firebase";
+import Home from "../Home/Home";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+  Container,
+} from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
+import PageLayout from "../PageLayout/PageLayout"; // Стилизация для страницы авторизации
 
 const Authentication = () => {
   const auth = getAuth(app);
@@ -12,7 +18,7 @@ const Authentication = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsub = auth.onAuthStateChanged(maybeUser => {
+    const unsub = auth.onAuthStateChanged((maybeUser) => {
       setUser(maybeUser);
       setLoading(false); // Загрузка завершена
     });
@@ -25,7 +31,7 @@ const Authentication = () => {
       const result = await signInWithPopup(auth, googleAuthProvider);
       setUser(result.user);
     } catch (error) {
-      console.error('Ошибка входа:', error);
+      console.error("Ошибка входа:", error);
     } finally {
       setLoading(false);
     }
@@ -36,14 +42,21 @@ const Authentication = () => {
       await signOut(auth);
       setUser(null);
     } catch (error) {
-      console.error('Ошибка выхода:', error);
+      console.error("Ошибка выхода:", error);
     }
   };
 
   if (loading) {
     return (
       <PageLayout>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
           <CircularProgress />
         </Box>
       </PageLayout>
@@ -51,13 +64,13 @@ const Authentication = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh' }}>
+    <Box sx={{ minHeight: "100vh" }}>
       {user ? (
         <Home user={user} handleSignOut={handleSignOut} /> // Отображение компонента Home
       ) : (
         <PageLayout>
           <Container>
-            <Box sx={{ textAlign: 'center', padding: 3 }}>
+            <Box sx={{ textAlign: "center", padding: 3 }}>
               <Typography variant="h4" gutterBottom>
                 Вітаємо у додатку AimKeep
               </Typography>
@@ -67,17 +80,23 @@ const Authentication = () => {
               <Typography variant="body1" color="text.secondary" mb={3}>
                 Увійди за допомогою свого акаунту Google, щоб почати!
               </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleSignIn}
                   startIcon={<GoogleIcon />}
                   sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    padding: '12px 24px',
-                    fontSize: '1rem',
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    padding: "12px 24px",
+                    fontSize: "1rem",
                   }}
                 >
                   Увійти через Google

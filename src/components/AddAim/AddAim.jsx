@@ -1,33 +1,28 @@
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import React from 'react';
-import { db } from '../../firebase';
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import React from "react";
+import { db } from "../../firebase";
 
-import {
-  Box,
-  Button,
-  TextField,
-  Stack,
-} from '@mui/material';
+import { Box, Button, TextField, Stack } from "@mui/material";
 
 const AddAim = ({ onCancel, getAllAims, userId }) => {
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const newAim = {
-      title: formData.get('title'),
-      description: formData.get('description'),
+      title: formData.get("title"),
+      description: formData.get("description"),
     };
 
     try {
-      await addDoc(collection(db, 'aims'), {
+      await addDoc(collection(db, "aims"), {
         ...newAim,
         userId,
         completed: false,
         createdAt: serverTimestamp(),
       });
     } catch (error) {
-      console.error('Error adding aim:', error);
-      alert('Виникла помилка під час додавання цілі. Спробуйте ще раз.');
+      console.error("Error adding aim:", error);
+      alert("Виникла помилка під час додавання цілі. Спробуйте ще раз.");
       return;
     }
 
@@ -63,11 +58,7 @@ const AddAim = ({ onCancel, getAllAims, userId }) => {
           >
             Скасувати
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-          >
+          <Button type="submit" variant="contained" size="small">
             Додати ціль
           </Button>
         </Box>

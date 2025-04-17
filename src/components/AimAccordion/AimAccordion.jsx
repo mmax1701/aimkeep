@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -11,8 +11,8 @@ import {
   DialogContent,
   DialogTitle,
   Box,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const AimAccordion = ({
   aims,
@@ -43,23 +43,23 @@ const AimAccordion = ({
 
   return (
     <div>
-      {aims.map(aim => (
+      {aims.map((aim) => (
         <Box
           key={aim.id}
           sx={{
-            margin: '7px 0',
-            backdropFilter: 'blur(6px)', // Размытый фон для воздушности
-            background: 'rgba(255, 255, 255, 0.7)', // Полупрозрачный фон
+            margin: "7px 0",
+            backdropFilter: "blur(6px)", // Размытый фон для воздушности
+            background: "rgba(255, 255, 255, 0.7)", // Полупрозрачный фон
             borderRadius: 2, // Скругленные углы
-            boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Мягкая тень
-            transition: 'all 0.3s ease', // Плавные переходы для эффекта
-            '&:hover': {
-              boxShadow: '0 6px 12px rgba(0,0,0,0.2)', // Усиление тени при наведении
-              background: 'rgba(255, 255, 255, 0.9)', // Более яркий фон при наведении
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Мягкая тень
+            transition: "all 0.3s ease", // Плавные переходы для эффекта
+            "&:hover": {
+              boxShadow: "0 6px 12px rgba(0,0,0,0.2)", // Усиление тени при наведении
+              background: "rgba(255, 255, 255, 0.9)", // Более яркий фон при наведении
             },
           }}
         >
-          <Accordion defaultExpanded={false} sx={{ boxShadow: 'none' }}>
+          <Accordion defaultExpanded={false} sx={{ boxShadow: "none" }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel3-content"
@@ -67,11 +67,11 @@ const AimAccordion = ({
             >
               <Typography
                 sx={{
-                  textDecoration: aim.completed ? 'line-through' : 'none',
-                  color: aim.completed ? 'text.disabled' : 'text.primary',
+                  textDecoration: aim.completed ? "line-through" : "none",
+                  color: aim.completed ? "text.disabled" : "text.primary",
                   fontWeight: aim.completed ? 400 : 500,
-                  fontSize: '1rem',
-                  fontFamily: 'Roboto, sans-serif',
+                  fontSize: "1rem",
+                  fontFamily: "Roboto, sans-serif",
                 }}
               >
                 {aim.title}
@@ -80,17 +80,17 @@ const AimAccordion = ({
 
             <AccordionDetails
               sx={{
-                paddingLeft: '16px', // Обеспечиваем выравнивание текста от левого края
-                paddingRight: '16px', // Добавляем отступ справа для симметрии
+                paddingLeft: "16px", // Обеспечиваем выравнивание текста от левого края
+                paddingRight: "16px", // Добавляем отступ справа для симметрии
               }}
             >
               <Typography
                 sx={{
-                  color: aim.completed ? 'text.secondary' : 'text.primary',
-                  fontSize: '0.9rem',
+                  color: aim.completed ? "text.secondary" : "text.primary",
+                  fontSize: "0.9rem",
                   lineHeight: 1.5,
-                  whiteSpace: 'pre-wrap',
-                  textAlign: 'left', // Убираем выравнивание по центру
+                  whiteSpace: "pre-wrap",
+                  textAlign: "left", // Убираем выравнивание по центру
                 }}
               >
                 {aim.description}
@@ -100,12 +100,15 @@ const AimAccordion = ({
             <AccordionActions>
               <div>
                 <Button
-                  onClick={() => handleDeleteClick(aim.id)} variant="outlined" color="error" size="small"// Открыть модальное окно подтверждения
+                  onClick={() => handleDeleteClick(aim.id)}
+                  variant="outlined"
+                  color="error"
+                  size="small" // Открыть модальное окно подтверждения
                   sx={{
-                    fontSize: '0.875rem',
-                    marginRight: '7px',
-                    padding: '3px 3px',
-                    textTransform: 'none'
+                    fontSize: "0.875rem",
+                    marginRight: "7px",
+                    padding: "3px 3px",
+                    textTransform: "none",
                   }}
                 >
                   Видалити
@@ -113,12 +116,14 @@ const AimAccordion = ({
 
                 {!aim.completed && (
                   <Button
-                    onClick={() => handleEditStart(aim.id)} variant="outlined" size="small"
+                    onClick={() => handleEditStart(aim.id)}
+                    variant="outlined"
+                    size="small"
                     sx={{
-                      color: 'primary.main',
-                      fontSize: '0.875rem',
-                      padding: '3px 3px',
-                      textTransform: 'none'
+                      color: "primary.main",
+                      fontSize: "0.875rem",
+                      padding: "3px 3px",
+                      textTransform: "none",
                     }}
                   >
                     Змінити
@@ -128,10 +133,12 @@ const AimAccordion = ({
               <div>
                 {!aim.completed && (
                   <Button
-                    onClick={() => handleComplete(aim.id)}  variant="contained" size="small"
+                    onClick={() => handleComplete(aim.id)}
+                    variant="contained"
+                    size="small"
                     sx={{
-                      fontSize: '0.875rem',
-                      textTransform: 'none'
+                      fontSize: "0.875rem",
+                      textTransform: "none",
                     }}
                   >
                     Виконана
@@ -150,7 +157,9 @@ const AimAccordion = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Підтвердження видалення"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {"Підтвердження видалення"}
+        </DialogTitle>
         <DialogContent>
           <Typography variant="body1">
             Ви впевнені, що хочете видалити цю ціль?

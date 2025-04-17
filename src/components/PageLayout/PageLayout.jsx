@@ -3,9 +3,10 @@ import { Container, Box } from "@mui/material";
 const PageLayout = ({ children }) => {
   return (
     <Box
-    sx={{
+      sx={{
         minHeight: "100vh",
-        background: "linear-gradient(to top right, rgba(0, 191, 255, 0.16), rgba(255, 132, 204, 0.3))",
+        background:
+          "linear-gradient(to top right, rgba(0, 191, 255, 0.16), rgba(255, 132, 204, 0.3))",
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",

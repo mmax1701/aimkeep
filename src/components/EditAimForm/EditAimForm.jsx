@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
-import {
-  TextField,
-  Button,
-  Box,
-  Stack,
-} from '@mui/material';
+import React, { useState } from "react";
+import { TextField, Button, Box, Stack } from "@mui/material";
 
 const EditAimForm = ({ aim, onSave, onCancel }) => {
   const [title, setTitle] = useState(aim.title);
   const [description, setDescription] = useState(aim.description);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSave({ ...aim, title, description });
   };
@@ -22,7 +17,7 @@ const EditAimForm = ({ aim, onSave, onCancel }) => {
           label="Назва цілі"
           name="title"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           fullWidth
           size="small"
           required
@@ -31,7 +26,7 @@ const EditAimForm = ({ aim, onSave, onCancel }) => {
           label="Опис цілі"
           name="description"
           value={description}
-          onChange={e => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
           fullWidth
           multiline
           rows={4}
@@ -47,11 +42,7 @@ const EditAimForm = ({ aim, onSave, onCancel }) => {
           >
             Скасувати
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-          >
+          <Button type="submit" variant="contained" size="small">
             Зберегти
           </Button>
         </Box>
