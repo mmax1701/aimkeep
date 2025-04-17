@@ -72,6 +72,10 @@ const AimAccordion = ({
                   fontWeight: aim.completed ? 400 : 500,
                   fontSize: "1rem",
                   fontFamily: "Roboto, sans-serif",
+                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
+                  whiteSpace: "normal",
+                  maxWidth: "100%",
                 }}
               >
                 {aim.title}
@@ -90,7 +94,10 @@ const AimAccordion = ({
                   fontSize: "0.9rem",
                   lineHeight: 1.5,
                   whiteSpace: "pre-wrap",
-                  textAlign: "left", // Убираем выравнивание по центру
+                  textAlign: "left",
+                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
+                  maxWidth: "100%",
                 }}
               >
                 {aim.description}
