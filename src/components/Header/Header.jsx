@@ -69,11 +69,12 @@ const Header = ({ user, onSignOut }) => {
             sx={{
               textTransform: "none",
               fontSize: "0.75rem",
-              padding: "3px 7px",
+              padding: "2px 5px",
               minWidth: "unset",
+              color: "#036aff",
             }}
             variant="outlined"
-            startIcon={<LogoutIcon fontSize="small" />}
+            // startIcon={<LogoutIcon fontSize="small" />}
           >
             Вийти
           </Button>

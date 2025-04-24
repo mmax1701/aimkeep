@@ -30,6 +30,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PageLayout from "../PageLayout/PageLayout";
 import Header from "../Header/Header";
 import AimsSection from "../AimsSection/AimsSection";
+import AimsStats from "../AimsStats/AimsStats";
 
 const Home = ({ user, handleSignOut }) => {
   const [aims, setAims] = useState([]);
@@ -131,6 +132,12 @@ const Home = ({ user, handleSignOut }) => {
   return (
     <PageLayout>
       <Header user={user} onSignOut={handleSignOut} onSearch={handleSearch} />
+
+      <AimsStats
+        total={aims.length}
+        completed={aims.filter((aim) => aim.completed).length}
+      />
+
       <AimsSection
         aims={aims}
         setIsAddModalOpen={setIsAddModalOpen}
